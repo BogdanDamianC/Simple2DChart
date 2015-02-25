@@ -62,7 +62,8 @@ namespace Simple2DChart.Axes
                 g.DrawLine(Pen, Bounds.Left, Bounds.Top, Bounds.Right, Bounds.Top);
             if (Position == Position.Top)
                 g.DrawLine(Pen, Bounds.Left, Bounds.Bottom, Bounds.Right, Bounds.Bottom);
-            DrawString(g, Label);
+            if(!string.IsNullOrEmpty(Label))
+                DrawString(g, Label);
 
             StringFormat format = new StringFormat();
             if (Orientation == Orientation.Horizontal)
@@ -96,7 +97,7 @@ namespace Simple2DChart.Axes
             for (int i = 0; i <= NoOfLabels; i++)
             {
                 var tmpValue = GetValueFromIndex(i);
-                g.DrawString(GetLabel(i, tmpValue), Font, Brush, getRect(GetPosition(tmpValue)), format);
+                g.DrawString(GetLabel(this, i, tmpValue), Font, Brush, getRect(GetPosition(tmpValue)), format);
             }
         }
 
@@ -136,7 +137,7 @@ namespace Simple2DChart.Axes
         /// <summary>
         /// function that generates the label for the chart, you can set it to something else to generate the Label
         /// </summary>
-        public Func<int, T, string> GetLabel { get; set; }
+        public Func<BaseAxis<T>, int, T, string> GetLabel { get; set; }
 
     }
 }

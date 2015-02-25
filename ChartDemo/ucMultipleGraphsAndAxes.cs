@@ -15,7 +15,7 @@ namespace ChartDemo
 {
     public partial class ucMultipleGraphsAndAxes : UserControl
     {
-        Simple2DChart.ChartRenderer graphPrinter;
+        Simple2DChart.ChartRenderer graphRenderer;
 
         public ucMultipleGraphsAndAxes()
         {
@@ -23,13 +23,11 @@ namespace ChartDemo
             CreateChart();
         }
 
-
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (graphPrinter != null && this.Visible)
-                graphPrinter.Draw(e.Graphics);
-            //else
-                base.OnPaint(e);
+            if (graphRenderer != null && this.Visible)
+                graphRenderer.Draw(e.Graphics);
+            base.OnPaint(e);
         }
 
         #region Draw Chart Points
@@ -128,8 +126,8 @@ namespace ChartDemo
             grgrid.Pen = new Pen(grgrid.Brush, Convert.ToSingle(0.2));
 
 
-            graphPrinter = new ChartRenderer(new IAxis[] { axaY, axaX, axaY2 }, new Simple2DChart.Graphs.IGraph[] { stepChart, lineChart, lineChartB }, sampleTitle);
-            graphPrinter.Grid = grgrid;
+            graphRenderer = new ChartRenderer(new IAxis[] { axaY, axaX, axaY2 }, new Simple2DChart.Graphs.IGraph[] { stepChart, lineChart, lineChartB }, sampleTitle);
+            graphRenderer.Grid = grgrid;
         }
     }
 }

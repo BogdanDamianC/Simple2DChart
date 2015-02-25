@@ -30,8 +30,16 @@ namespace Simple2DChart.Axes
         protected double sliceValue, dataIntervalSize;
         public override void PrepareForRendering()
         {
-            dataIntervalSize = MaxValue - MinValue;
-            sliceValue = dataIntervalSize / NoOfLabels;
+            if (MinValue < MaxValue)
+            {
+                dataIntervalSize = MaxValue - MinValue;
+                sliceValue = dataIntervalSize / NoOfLabels;
+            }
+            else
+            {
+                dataIntervalSize = 1;
+                sliceValue = 0;
+            }
         }
 
         public override int GetPosition(double val)
@@ -49,6 +57,6 @@ namespace Simple2DChart.Axes
             return sliceValue * i + MinValue;
         }
 
-        public readonly Func<int, double, string> DefaultGetLabel = (int index, double value) => { return Convert.ToString(Math.Floor(value)); };
+        public readonly Func<BaseAxis<double>, int, double, string> DefaultGetLabel = (BaseAxis<double> axis, int index, double value) => { return Convert.ToString(Math.Floor(value)); };
 	}
 }

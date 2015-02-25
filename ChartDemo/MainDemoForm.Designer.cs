@@ -30,6 +30,7 @@
         {
             this.ucSuperSimpleChart1 = new ChartDemo.ucSuperSimpleChart();
             this.ucMultipleGraphsAndAxes1 = new ChartDemo.ucMultipleGraphsAndAxes();
+            this.ucSimpleProgressChart1 = new ChartDemo.ucSimpleProgressChart();
             this.SuspendLayout();
             // 
             // ucSuperSimpleChart1
@@ -46,12 +47,20 @@
             this.ucMultipleGraphsAndAxes1.Size = new System.Drawing.Size(1000, 600);
             this.ucMultipleGraphsAndAxes1.TabIndex = 1;
             // 
+            // ucSimpleProgressChart1
+            // 
+            this.ucSimpleProgressChart1.Location = new System.Drawing.Point(907, 2);
+            this.ucSimpleProgressChart1.Name = "ucSimpleProgressChart1";
+            this.ucSimpleProgressChart1.Size = new System.Drawing.Size(1000, 226);
+            this.ucSimpleProgressChart1.TabIndex = 2;
+            // 
             // MainDemoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1119, 733);
+            this.ClientSize = new System.Drawing.Size(1302, 421);
+            this.Controls.Add(this.ucSimpleProgressChart1);
             this.Controls.Add(this.ucMultipleGraphsAndAxes1);
             this.Controls.Add(this.ucSuperSimpleChart1);
             this.Name = "MainDemoForm";
@@ -64,6 +73,7 @@
 
         private ucSuperSimpleChart ucSuperSimpleChart1;
         private ucMultipleGraphsAndAxes ucMultipleGraphsAndAxes1;
+        private ucSimpleProgressChart ucSimpleProgressChart1;
 
     }
 }

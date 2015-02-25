@@ -31,9 +31,9 @@ namespace Simple2DChart
         public ChartGrid Grid { get; set; }
         public ChartTitle Title { get; set; }
         public IEnumerable<Simple2DChart.Axes.IAxis> Axes { get; set; }
-        public Graphs.IGraph[] Graphs { get; set; }
+        public IEnumerable<Graphs.IGraph> Graphs { get; set; }
 
-        public ChartRenderer(IEnumerable<Simple2DChart.Axes.IAxis> Axes, Graphs.IGraph[] Graphs, ChartTitle Title)
+        public ChartRenderer(IEnumerable<Simple2DChart.Axes.IAxis> Axes, IEnumerable<Graphs.IGraph> Graphs, ChartTitle Title)
 		{
             this.Axes = Axes;
             this.Graphs = Graphs;
@@ -51,12 +51,17 @@ namespace Simple2DChart
 
         public Rectangle? GetBounds()
         {
-            int left = int.MaxValue, right = int.MinValue, top = int.MaxValue, bottom = int.MinValue;
-            var bounds = Axes.Select(a => a.Bounds).ToList();
+            var bounds = new List<Rectangle>();
+            if (Title != null)
+                bounds.Add(Title.Bounds);
+            if (Axes == null)
+                bounds.AddRange(Axes.Select(a => a.Bounds));
             if (LegendPosition != null)
                 bounds.Add(LegendPosition.Value);
             if (!bounds.Any())
                 return null;
+
+            int left = int.MaxValue, right = int.MinValue, top = int.MaxValue, bottom = int.MinValue;
             foreach (var b in bounds)
             {
                 if (left > b.Left)
@@ -73,26 +78,36 @@ namespace Simple2DChart
 
         public void Draw(Graphics g)
         {
-            Title.Draw(g);
-            foreach (var axe in Axes)
-                axe.PrepareForRendering();
-
-            int legendSlice = 0;
-            if (LegendPosition.HasValue && Graphs.Length > 0)
-                legendSlice = LegendPosition.Value.Height / Graphs.Length;
+            if (Title != null)
+                Title.Draw(g);
+            if (Axes != null)
+                foreach (var axe in Axes)
+                    axe.PrepareForRendering();
 
             if (Grid != null)
                 Grid.Draw(g);
 
-            for (int i = 0; i < Graphs.Length; i++)
+            int noOfGraphs = Graphs != null ? Graphs.Count() : 0;
+            if (noOfGraphs > 0)
             {
-                Graphs[i].Draw(g);
+                int legendSlice = 0;
+
                 if (LegendPosition.HasValue)
-                    Graphs[i].DrawLegend(g, new Rectangle(LegendPosition.Value.X, LegendPosition.Value.Y + i * legendSlice, LegendPosition.Value.Width, legendSlice));
+                    legendSlice = LegendPosition.Value.Height / noOfGraphs;
+
+                int i = 0;
+                foreach (var grph in Graphs)
+                {
+                    grph.Draw(g);
+                    if (LegendPosition.HasValue)
+                        grph.DrawLegend(g, new Rectangle(LegendPosition.Value.X, LegendPosition.Value.Y + i * legendSlice, LegendPosition.Value.Width, legendSlice));
+                    i++;
+                }
             }
 
-            foreach (var axe in Axes)
-                axe.Draw(g);
+            if (Axes != null)
+                foreach (var axe in Axes)
+                    axe.Draw(g);
         }
 
         public Bitmap GetImage()

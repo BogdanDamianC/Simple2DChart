@@ -29,8 +29,16 @@ namespace Simple2DChart.Axes
         protected long sliceValue, dataIntervalSize;
         public override void PrepareForRendering()
         {
-            dataIntervalSize = (MaxValue - MinValue).Ticks;
-            sliceValue = dataIntervalSize / NoOfLabels;
+            if (MinValue < MaxValue)
+            {
+                dataIntervalSize = (MaxValue - MinValue).Ticks;
+                sliceValue = dataIntervalSize / NoOfLabels;
+            }
+            else
+            {
+                dataIntervalSize = 1;
+                sliceValue = 0;
+            }
         }
 
         public override int GetPosition(DateTime val)
@@ -48,6 +56,6 @@ namespace Simple2DChart.Axes
             return MinValue.Add(extraTimeSpan);
         }
 
-        public readonly Func<int, DateTime, string> DefaultGetLabel = (int index, DateTime value) => { return value.ToShortDateString(); };
+        public readonly Func<BaseAxis<DateTime>, int, DateTime, string> DefaultGetLabel = (BaseAxis<DateTime> axis, int index, DateTime value) => { return value.ToShortDateString(); };
     }
 }
