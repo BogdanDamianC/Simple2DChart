@@ -57,6 +57,9 @@ namespace Simple2DChart.Axes
             return sliceValue * i + MinValue;
         }
 
-        public readonly Func<BaseAxis<double>, int, double, string> DefaultGetLabel = (BaseAxis<double> axis, int index, double value) => { return Convert.ToString(Math.Floor(value)); };
+        public static string DefaultGetLabel(BaseAxis<double> axis, int index, double value)
+        {
+            return Convert.ToString(Math.Floor(value));
+        }
 	}
 }

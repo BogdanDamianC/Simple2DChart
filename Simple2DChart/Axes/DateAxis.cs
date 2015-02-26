@@ -56,6 +56,22 @@ namespace Simple2DChart.Axes
             return MinValue.Add(extraTimeSpan);
         }
 
-        public readonly Func<BaseAxis<DateTime>, int, DateTime, string> DefaultGetLabel = (BaseAxis<DateTime> axis, int index, DateTime value) => { return value.ToShortDateString(); };
+        public static string DefaultGetLabel(BaseAxis<DateTime> axis, int index, DateTime value) { return value.ToShortDateString(); }
+        public static string CurrentValueMinValueDiffLabel(BaseAxis<DateTime> axis, int index, DateTime value) { return TimeDiffToStringInHoursMinutesSeconds(axis.MinValue, value); }
+
+        public static string TimeDiffToStringInHoursMinutesSeconds(DateTime startValue, DateTime endValue)
+        {
+            var seconds = Math.Floor((endValue - startValue).TotalSeconds);
+            var h = Math.Floor(seconds / 3600);
+            seconds -= h * 3600;
+            var m = Math.Floor(seconds / 60);
+            seconds -= m * 60;
+            string ret = string.Format("{0} seconds", seconds);
+            if (m > 0)
+                ret = string.Format("{0} minutes - {1}", m, ret);
+            if (h > 0)
+                ret = string.Format("{0} hours - {1}", h, ret);
+            return ret;
+        }
     }
 }

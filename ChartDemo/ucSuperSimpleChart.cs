@@ -44,12 +44,12 @@ namespace ChartDemo
             sampleTitle.BackGroundBrush = Brushes.DarkSalmon;
 
             var axaX = new NumberAxis(new Rectangle(100, 400, chartWidth, 100), new Font(FontFamily.GenericSansSerif, 8), 5, Position.Bottom);
-            axaX.Width = 15;
-            axaX.Orientation = Simple2DChart.Orientation.Vertical;
-            axaX.Label = "Income";
+            axaX.LabelOrientation = Simple2DChart.Orientation.Vertical;
+            axaX.Title = "Income";
 
             var axaY = new NumberAxis(new Rectangle(50, 100, 50, 300), new Font(FontFamily.GenericSansSerif, 8), 5, Position.Left);
-            axaY.Label = "Dollars $";
+            axaY.LabelOrientation = Simple2DChart.Orientation.Horizontal;
+            axaY.Title = "Dollars $";
 
             var data = new Simple2DChart.Graphs.GraphData<double, double>[]{
                     new Simple2DChart.Graphs.GraphData<double, double>(1, 10),

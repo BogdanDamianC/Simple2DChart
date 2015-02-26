@@ -55,15 +55,16 @@ namespace ChartDemo
             sampleTitle.Brush = Brushes.LightCyan;
 
             var axaY = new NumberAxis(new Rectangle(900, 100, 75, 300), new Font(FontFamily.GenericMonospace, 8), 5, Position.Right);
-            axaY.Label = "Euro";
+            axaY.LabelOrientation = Simple2DChart.Orientation.Horizontal;
+            axaY.Title = "Euro";
 
             var axaX = new DateAxis(new Rectangle(100, 400, 800, 100), new Font(FontFamily.GenericSansSerif, 8), 10, Position.Bottom);
-            axaX.Width = 15;
-            axaX.Orientation = Simple2DChart.Orientation.Vertical;
-            axaX.Label = "DateTime";
+            axaX.LabelOrientation = Simple2DChart.Orientation.Vertical;
+            axaX.Title = "DateTime";
 
             var axaY2 = new NumberAxis(new Rectangle(50, 100, 50, 300), new Font(FontFamily.GenericSansSerif, 8), 5, Position.Left);
-            axaY2.Label = "Dollars $";
+            axaY2.LabelOrientation = Simple2DChart.Orientation.Horizontal;
+            axaY2.Title = "Dollars $";
 
             var data = new Simple2DChart.Graphs.GraphData<DateTime, double>[]{
                     new Simple2DChart.Graphs.GraphData<DateTime, double>(DateTime.Now.AddDays(-3), 10),

@@ -22,10 +22,9 @@ namespace Simple2DChart.Axes
     {
         void PrepareForRendering();
         int NoOfLabels { get; set; }
-        string Label { get; set; }
+        string Title { get; set; }
+        Orientation LabelOrientation { get; set; }
         Position Position { get; set; }
-        int Width { get; set; }
-        int Height { get; set; }
         void Draw(Graphics g);
         int GetPositionFromIndex(int i);
     }
@@ -37,17 +36,15 @@ namespace Simple2DChart.Axes
 
         public int NoOfLabels { get; set; }
 
-        public string Label { get; set; }
+        public string Title { get; set; }
+        public Orientation LabelOrientation { get; set; }
         public Position Position { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
         public BaseAxis(Rectangle Bounds, Font Font, int NoOfLabels, Position Position)
         {
+            this.LabelOrientation = Simple2DChart.Orientation.Vertical;
             this.Bounds = Bounds;
             this.Font = Font;
             this.NoOfLabels = NoOfLabels;
-            this.Height = 15;
-            this.Width = 15;
             this.Position = Position;
             this.Brush = Brushes.Black;
         }
@@ -62,37 +59,75 @@ namespace Simple2DChart.Axes
                 g.DrawLine(Pen, Bounds.Left, Bounds.Top, Bounds.Right, Bounds.Top);
             if (Position == Position.Top)
                 g.DrawLine(Pen, Bounds.Left, Bounds.Bottom, Bounds.Right, Bounds.Bottom);
-            if(!string.IsNullOrEmpty(Label))
-                DrawString(g, Label);
+            if(!string.IsNullOrEmpty(Title))
+                DrawTitle(g, Title);
 
-            StringFormat format = new StringFormat();
-            if (Orientation == Orientation.Horizontal)
-                format.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.DirectionRightToLeft;
-            else
-                format.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.DirectionVertical;
-            if (this.Position == Position.Left || this.Position == Position.Bottom)
-                format.Alignment = StringAlignment.Near;
-            else
-                format.Alignment = StringAlignment.Far;
+            
+            var format = new StringFormat();
+            format.FormatFlags = StringFormatFlags.NoClip;
+            if (LabelOrientation == Orientation.Vertical)
+                format.FormatFlags |= StringFormatFlags.DirectionVertical;
+
+            int textHeight = Convert.ToInt32(g.MeasureString("10A", Font).Height);
             Func<int, Rectangle> getRect = null;
-            if (this.Position == Position.Right || this.Position == Position.Left)
+            int offset = 0, top = 0;
+            switch (Position)
             {
-                int width = Bounds.Width - 5;
-                int offset = Height / 2;
-                int left = Bounds.Left;
-                if (this.Position == Position.Right)
-                    left += 5;
-                getRect = (int position)=> new Rectangle(Bounds.Left, position - offset, width, Height);
+                case Simple2DChart.Position.Top:
+                    if (LabelOrientation == Orientation.Horizontal)
+                    {
+                        format.Alignment = StringAlignment.Center;
+                        offset = Bounds.Width / (NoOfLabels * 2);
+                        top = Bounds.Bottom - textHeight;
+                    }
+                    else
+                    {
+                        format.Alignment = StringAlignment.Far;
+                        offset = textHeight / 2;
+                        top = Bounds.Top - 2;
+                    }
+                    getRect = (int position) => new Rectangle(position - offset, top, offset*2, textHeight);
+                    break;
+                case Simple2DChart.Position.Bottom:
+                    if (LabelOrientation == Orientation.Horizontal)
+                    {
+                        format.Alignment = StringAlignment.Center;
+                        offset = Bounds.Width / (NoOfLabels * 2); 
+                    }
+                    else
+                    {
+                        format.Alignment = StringAlignment.Near;
+                        offset = textHeight / 2;
+                    }
+                    getRect = (int position) => new Rectangle(position - offset, Bounds.Top + 2, offset * 2, Bounds.Height);
+                    break;
+                case Simple2DChart.Position.Left:
+                    if (LabelOrientation == Orientation.Vertical)
+                    {
+                        offset = Bounds.Height / (NoOfLabels * 2) ;
+                    }
+                    else
+                    {
+                        format.Alignment = StringAlignment.Far;
+                        offset = textHeight / 2;
+                    }
+                        
+                    getRect = (int position) => new Rectangle(Bounds.Left, position - offset, Bounds.Width, textHeight);
+                    break;
+                case Simple2DChart.Position.Right:
+                    if (LabelOrientation == Orientation.Vertical)
+                    {
+                        offset = Bounds.Height / (NoOfLabels * 2);
+                    }
+                    else
+                    {
+                        format.Alignment = StringAlignment.Near;
+                        offset = textHeight / 2;
+                    }
+                    getRect = (int position) => new Rectangle(Bounds.Left, position - offset, Bounds.Width, textHeight);
+                    break;
             }
-            else
-            {
-                int heigth = Bounds.Height - 5;
-                int offset = Width / 2;
-                int top = Bounds.Top;
-                if (this.Position == Position.Bottom)
-                    top += 5;
-                getRect = (int position)=> new Rectangle(position - offset, top, Width, heigth);
-            }
+
 
             for (int i = 0; i <= NoOfLabels; i++)
             {
@@ -101,28 +136,33 @@ namespace Simple2DChart.Axes
             }
         }
 
-        private void DrawString(Graphics g, string str)
+        private void DrawTitle(Graphics g, string str)
         {
             StringFormat format = new StringFormat();
-            if (Orientation == Orientation.Horizontal)
-                format.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.DirectionVertical;
-            else
-                format.FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.DirectionRightToLeft;
+            int textHeight = Convert.ToInt32(g.MeasureString(str, Font).Height);
+            Rectangle rect = Bounds;
+            format.FormatFlags = StringFormatFlags.NoClip;
+            switch(Position)
+            {
+                case Simple2DChart.Position.Top:
+                    rect = Bounds;
+                    break;
+               case Simple2DChart.Position.Bottom:
+                    rect = Rectangle.FromLTRB(Bounds.Left, Bounds.Bottom - textHeight, Bounds.Right, Bounds.Bottom);
+                    break;
+                case Simple2DChart.Position.Left:
+                    format.FormatFlags |= StringFormatFlags.DirectionVertical;
+                    rect = Bounds;
+                    break;
+               case Simple2DChart.Position.Right:
+                    format.FormatFlags |= StringFormatFlags.DirectionVertical;
+                    rect = Rectangle.FromLTRB(Bounds.Right - textHeight, Bounds.Bottom, Bounds.Right, Bounds.Bottom);
+                    break;
+            }
+            
+
             format.Alignment = StringAlignment.Center;
-            if (this.Position == Position.Right)
-                g.DrawString(str, Font, Brush,
-                    new Rectangle(Bounds.Right - Height, Bounds.Top, Height, Bounds.Height), format);
-
-            if (this.Position == Position.Left)
-                g.DrawString(str, Font, Brush,
-                    new Rectangle(Bounds.Left, Bounds.Top, Height, Bounds.Height), format);
-
-            if (this.Position == Position.Bottom)
-                g.DrawString(str, Font, Brush,
-                    new Rectangle(Bounds.Left, Bounds.Bottom - Width, Bounds.Width, Width), format);
-            if (this.Position == Position.Top)
-                g.DrawString(str, Font, Brush,
-                    new Rectangle(Bounds.Left, Bounds.Top, Bounds.Width, Width), format);
+            g.DrawString(str, Font, Brush, rect, format);
         }
 
         public int GetPositionFromIndex(int i)

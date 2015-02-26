@@ -23,7 +23,7 @@ namespace Simple2DChart
     public enum Position { Left, Right, Top, Bottom };
     public interface IChartComponent
     {
-        Orientation Orientation { get; set; }
+        
         Rectangle Bounds { get; set; }
         Font Font { get; set; }
         Brush Brush { get; set; }
@@ -37,10 +37,8 @@ namespace Simple2DChart
             this.Font = new Font(FontFamily.GenericSerif, 10);
             this.Brush = Brushes.Black;
             this.Pen = Pens.Black;
-            this.Orientation = Orientation.Horizontal;
         }
-
-        public Orientation Orientation { get; set; }
+        
         public Rectangle Bounds { get; set; }
         public Font Font { get; set; }
         public Brush Brush { get; set; }

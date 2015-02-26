@@ -43,7 +43,6 @@ namespace ChartDemo
         }
 
 
-
         #region Draw Chart Points
         private void DrawPoint(Graphics g, int x, int y)
         {
@@ -58,31 +57,19 @@ namespace ChartDemo
 
         private void CreateChart()
         {
-            var sampleTitle = new ChartTitle("Graph Demo with Multiple Graphs and Axes", new Rectangle(100, 0, 900, 20), new Font(FontFamily.GenericSerif, 15));
+            var sampleTitle = new ChartTitle("Graph Demo with Multiple Graphs and Axes", new Rectangle(50, 0, 800, 20), new Font(FontFamily.GenericSerif, 15));
             sampleTitle.BackGroundBrush = Brushes.AliceBlue;
-            sampleTitle.Brush = Brushes.LightCyan;
+            sampleTitle.Brush = Brushes.DarkBlue;
+            sampleTitle.Text = "This is the title";
 
-
-            axaX = new DateAxis(new Rectangle(50, 170, 800, 100), new Font(FontFamily.GenericSansSerif, 8), 10, Position.Bottom);
-            axaX.Width = 15;
-            axaX.Orientation = Simple2DChart.Orientation.Vertical;
-            axaX.Label = null;
-            axaX.GetLabel = (BaseAxis<DateTime> axis, int index, DateTime value) => {
-                var seconds = Math.Floor( (value - axis.MinValue).TotalSeconds);
-                var h = Math.Floor(seconds / 3600);
-                seconds -= h * 3600;
-                var m = Math.Floor(seconds / 60);
-                seconds -= m * 60;
-                string ret = string.Format("{0} seconds", seconds);
-                if(m > 0)
-                    ret = string.Format("{0} minutes - {1}", m, ret);
-                if (h > 0)
-                    ret = string.Format("{0} hours - {1}", h, ret);
-                return ret;
-            };
+            axaX = new DateAxis(new Rectangle(50, 170, 800, 100), new Font(FontFamily.GenericSansSerif, 8), 4, Position.Bottom);
+            axaX.LabelOrientation = Simple2DChart.Orientation.Horizontal;
+            axaX.Title = null;
+            axaX.GetLabel = DateAxis.CurrentValueMinValueDiffLabel;
 
             axaY = new NumberAxis(new Rectangle(0, 20, 50, 150), new Font(FontFamily.GenericSansSerif, 8), 5, Position.Left);
-            axaY.Label = "No of Requests/Second";
+            axaY.LabelOrientation = Simple2DChart.Orientation.Horizontal;
+            axaY.Title = "No of Requests/Second";
 
 
             instantNoOfRequestsChart = new Simple2DChart.Graphs.LineGraph<DateTime, double>(axaX, axaY, new List<Simple2DChart.Graphs.GraphData<DateTime, double>>());
