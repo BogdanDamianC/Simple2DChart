@@ -26,13 +26,13 @@ namespace Simple2DChart.Graphs
     public enum LineGrapType { SimpleLine, Curve};
     public class LineGraph<XType, YType> : BaseGraph<XType, YType>
     {
-        public LineGraph(BaseAxis<XType> XAxis, BaseAxis<YType> YAxis, IEnumerable<GraphData<XType, YType>> GraphData, LineGrapType GraphType)
+        public LineGraph(BaseAxis<XType> XAxis, BaseAxis<YType> YAxis, IList<GraphData<XType, YType>> GraphData, LineGrapType GraphType)
             : base(XAxis, YAxis, GraphData)
         {
             this.GraphType = GraphType;
         }
 
-        public LineGraph(BaseAxis<XType> XAxis, BaseAxis<YType> YAxis, IEnumerable<GraphData<XType, YType>> GraphData)
+        public LineGraph(BaseAxis<XType> XAxis, BaseAxis<YType> YAxis, IList<GraphData<XType, YType>> GraphData)
             : this(XAxis, YAxis, GraphData, LineGrapType.SimpleLine)
         {
         }

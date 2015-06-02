@@ -30,10 +30,10 @@ namespace Simple2DChart
         public Rectangle? LegendPosition { get; set; }
         public ChartGrid Grid { get; set; }
         public ChartTitle Title { get; set; }
-        public IEnumerable<Simple2DChart.Axes.IAxis> Axes { get; set; }
-        public IEnumerable<Graphs.IGraph> Graphs { get; set; }
+        public IList<Simple2DChart.Axes.IAxis> Axes { get; set; }
+        public IList<Graphs.IGraph> Graphs { get; set; }
 
-        public ChartRenderer(IEnumerable<Simple2DChart.Axes.IAxis> Axes, IEnumerable<Graphs.IGraph> Graphs, ChartTitle Title)
+        public ChartRenderer(IList<Simple2DChart.Axes.IAxis> Axes, IList<Graphs.IGraph> Graphs, ChartTitle Title)
 		{
             this.Axes = Axes;
             this.Graphs = Graphs;
@@ -41,7 +41,7 @@ namespace Simple2DChart
 		}
 
 
-        public ChartRenderer(IEnumerable<Simple2DChart.Axes.IAxis> Axes, Graphs.IGraph[] Graphs, ChartTitle Title, ChartGrid Grid, Rectangle? LegendPosition)
+        public ChartRenderer(IList<Simple2DChart.Axes.IAxis> Axes, IList<Graphs.IGraph> Graphs, ChartTitle Title, ChartGrid Grid, Rectangle? LegendPosition)
             : this(Axes, Graphs, Title)
 		{
             this.Grid = Grid;

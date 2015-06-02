@@ -32,14 +32,14 @@ namespace Simple2DChart.Graphs
 
     public abstract class BaseGraph<XType, YType> : ChartBaseComponent, IGraph
     {
-        public BaseGraph(BaseAxis<XType> XAxis, BaseAxis<YType> YAxis, IEnumerable<GraphData<XType, YType>> GraphData)
+        public BaseGraph(BaseAxis<XType> XAxis, BaseAxis<YType> YAxis, IList<GraphData<XType, YType>> GraphData)
 		{
             this.XAxis = XAxis;
             this.YAxis = YAxis;
             this.GraphData = GraphData;
 		}
 
-        public IEnumerable<GraphData<XType, YType>> GraphData { get; private set; }
+        public IList<GraphData<XType, YType>> GraphData { get; private set; }
 
         public string Legend { get; set; }
 
@@ -49,7 +49,7 @@ namespace Simple2DChart.Graphs
 
 		public void Draw(Graphics g)
         {
-            if (GraphData.Count() <= 2)
+            if (GraphData.Count <= 2)
                 return;
             Draw2DGraph(g);
         }

@@ -24,7 +24,7 @@ namespace Simple2DChart.Graphs
 {
     public class StepLineGraph<XType, YType> : BaseGraph<XType, YType>
     {
-        public StepLineGraph(BaseAxis<XType> XAxis, BaseAxis<YType> YAxis, IEnumerable<GraphData<XType, YType>> GraphData)
+        public StepLineGraph(BaseAxis<XType> XAxis, BaseAxis<YType> YAxis, IList<GraphData<XType, YType>> GraphData)
             : base(XAxis, YAxis, GraphData)
         {
         }
