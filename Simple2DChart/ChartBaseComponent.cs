@@ -1,5 +1,5 @@
 ﻿/************************************
-Copyright 2015 Bogdan Damian
+Copyright 2015+ Bogdan Damian
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -11,10 +11,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 **************************************/
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 
 namespace Simple2DChart
@@ -32,16 +28,9 @@ namespace Simple2DChart
 
     public abstract class ChartBaseComponent : IChartComponent
     {
-        public ChartBaseComponent()
-        {
-            this.Font = new Font(FontFamily.GenericSerif, 10);
-            this.Brush = Brushes.Black;
-            this.Pen = Pens.Black;
-        }
-        
         public Rectangle Bounds { get; set; }
-        public Font Font { get; set; }
-        public Brush Brush { get; set; }
-        public Pen Pen { get; set; }
+        public Font Font { get; set; } = new Font(FontFamily.GenericSerif, 10);
+        public Brush Brush { get; set; } = Brushes.Black;
+        public Pen Pen { get; set; } = Pens.Black;
     }
 }

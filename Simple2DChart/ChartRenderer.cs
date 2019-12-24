@@ -1,5 +1,5 @@
 /************************************
-Copyright 2015 Bogdan Damian
+Copyright 2015+ Bogdan Damian
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -11,29 +11,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 **************************************/
 
-using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.IO;
 
 
 namespace Simple2DChart
 {
-	/// <summary>
-	/// Summary description for Printer.
-	/// </summary>
-	public class ChartRenderer
+    /// <summary>
+    /// Summary description for Printer.
+    /// </summary>
+    public class ChartRenderer
 	{
         public Rectangle? LegendPosition { get; set; }
         public ChartGrid Grid { get; set; }
         public ChartTitle Title { get; set; }
-        public IList<Simple2DChart.Axes.IAxis> Axes { get; set; }
+        public IList<Axes.IAxis> Axes { get; set; }
         public IList<Graphs.IGraph> Graphs { get; set; }
 
-        public ChartRenderer(IList<Simple2DChart.Axes.IAxis> Axes, IList<Graphs.IGraph> Graphs, ChartTitle Title)
+        public ChartRenderer(IList<Axes.IAxis> Axes, IList<Graphs.IGraph> Graphs, ChartTitle Title)
 		{
             this.Axes = Axes;
             this.Graphs = Graphs;

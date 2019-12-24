@@ -1,5 +1,5 @@
 ﻿/************************************
-Copyright 2015 Bogdan Damian
+Copyright 2015+ Bogdan Damian
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -11,11 +11,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 **************************************/
 
-using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Data;
-using System.Windows.Forms;
 using System.Collections.Generic;
 using Simple2DChart.Axes;
 
@@ -40,8 +36,7 @@ namespace Simple2DChart.Graphs
                 if (prevGD == null)
                 {
                     prevGD = gd;
-                    if (this.DrawPoint != null)
-                        this.DrawPoint(g, gdX, gdY);
+                    DrawPoint?.Invoke(g, gdX, gdY);
                     continue;
                 }
 
@@ -50,10 +45,10 @@ namespace Simple2DChart.Graphs
                 g.DrawLine(Pen, prevGDX, prevGDY, gdX, prevGDY);
                 g.DrawLine(Pen, gdX, prevGDY, gdX, gdY);
 
-                if (this.DrawPoint != null)
+                if (DrawPoint != null)
                 {
-                    this.DrawPoint(g, gdX, prevGDY);
-                    this.DrawPoint(g, gdX, gdY);
+                    DrawPoint(g, gdX, prevGDY);
+                    DrawPoint(g, gdX, gdY);
                 }
                 prevGD = gd;
             }

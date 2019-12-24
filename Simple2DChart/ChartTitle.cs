@@ -1,5 +1,5 @@
 /************************************
-Copyright 2015 Bogdan Damian
+Copyright 2015+ Bogdan Damian
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -28,17 +28,15 @@ namespace Simple2DChart
 	{
 		public string Text {get; set;}
         public Rectangle Bounds { get; set; }
-        public Font Font { get; set; }
-        public Brush Brush { get; set; }
+        public Font Font { get; set; } = new Font(FontFamily.GenericSansSerif, 30);
+        public Brush Brush { get; set; } = Brushes.Black;
         public Brush BackGroundBrush { get; set; }
 
 
         public ChartTitle(string Text, Rectangle Bounds)
 		{
-            this.Brush = Brushes.Black;
             this.Bounds = Bounds;
             this.Text = Text;
-			this.Font = new Font(FontFamily.GenericSansSerif,30);
 		}
 		
 		public ChartTitle(string Text, Rectangle Bounds,Font Font):this(Text, Bounds)

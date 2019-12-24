@@ -1,5 +1,5 @@
 ﻿/************************************
-Copyright 2015 Bogdan Damian
+Copyright 2015+ Bogdan Damian
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -13,8 +13,6 @@ limitations under the License.
 
 using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Data;
 
 
 namespace Simple2DChart.Axes
@@ -24,7 +22,7 @@ namespace Simple2DChart.Axes
         public NumberAxis(Rectangle Bounds, Font Font, int NoOfLabels, Position Position)
             : base(Bounds, Font, NoOfLabels, Position)
 		{
-            this.GetLabel = DefaultGetLabel;
+            GetLabel = DefaultGetLabel;
 		}
 
         protected double sliceValue, dataIntervalSize;
