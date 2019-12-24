@@ -8,6 +8,9 @@
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/BogdanDamianC/Simple2DChart</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/BogdanDamianC/Simple2DChart</PackageProjectUrl>
+    <RepositoryType>GITGUB</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
